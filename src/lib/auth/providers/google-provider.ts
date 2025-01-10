@@ -22,7 +22,7 @@ const googleProvider = Google({
         image,
         username,
       };
-      user = (await createUser(newUser as User)).user;
+      user = (await createUser(newUser)).user;
     }
 
     // Update the users image if no image in the DB

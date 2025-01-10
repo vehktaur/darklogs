@@ -1,5 +1,4 @@
 import Credentials from 'next-auth/providers/credentials';
-
 import { getUser } from '@/lib/utils/get-user';
 import bcrypt from 'bcryptjs';
 

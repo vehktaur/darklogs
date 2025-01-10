@@ -57,7 +57,7 @@ const ProfileImg = ({ user }: { user: User | null }) => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!image.url) return;
-    const res = await changeProfilePic(image.url, user?._id);
+    const res = await changeProfilePic(image.url);
 
     if (res.success) {
       toast.success(res.msg);
@@ -68,7 +68,7 @@ const ProfileImg = ({ user }: { user: User | null }) => {
   };
 
   const handleDelete = async () => {
-    const res = await deleteProfilePic(user?._id!, image.url);
+    const res = await deleteProfilePic(image.url);
 
     if (res.success) {
       toast.success(res.msg);

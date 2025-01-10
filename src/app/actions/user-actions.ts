@@ -15,7 +15,7 @@ const getAuth = async () => {
   return auth();
 };
 
-export const createUser = async (user: User) => {
+export const createUser = async (user: Partial<User>) => {
   try {
     //Connect to the DB
     await connectDB();
@@ -182,13 +182,19 @@ export const changeProfilePic = async (url: string) => {
   }
 };
 
-export const deleteProfilePic = async (id: string, url?: string | null) => {
+export const deleteProfilePic = async (url?: string | null) => {
   try {
     // connect to the DB
     await connectDB();
 
+    // Get user details
+    const session = await getAuth();
+    if (!session) {
+      throw new Error('User must be logged in');
+    }
+
     // Confirm user exists
-    const user = await Users.findById(id);
+    const user = await Users.findById(session.user._id);
     if (!user) {
       throw new Error('User does not exist');
     }
