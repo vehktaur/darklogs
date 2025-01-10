@@ -1,11 +1,11 @@
-'use cache';
-
 import 'server-only';
 import { getPlaiceholder } from 'plaiceholder';
 
 export const getBlurData = async (url: string) => {
   try {
-    const image = await fetch(url);
+    const image = await fetch(url, {
+      cache: 'force-cache',
+    });
     if (!image.ok) throw new Error(`Failed to fetch image from ${url}`);
     const imageBuffer = await image.arrayBuffer();
     const buffer = Buffer.from(imageBuffer);

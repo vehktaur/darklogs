@@ -1,8 +1,5 @@
-'use cache';
-
 import { connectDB } from '../config/db';
 import Users, { User } from '../models/users';
-import { unstable_cacheTag as cacheTag } from 'next/cache';
 
 export const getUser = async (query: {
   email?: string;
@@ -10,8 +7,6 @@ export const getUser = async (query: {
   username?: string;
 }) => {
   const { email, id, username } = query;
-
-  cacheTag('user');
 
   try {
     //Connect to the DB
