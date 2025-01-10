@@ -40,7 +40,7 @@ const Navbar = ({
     {
       name: 'My Profile',
       icon: <PiUser className='size-4' />,
-      path: `/${user?.username}`,
+      path: `/profile`,
     },
     {
       name: 'Create Post',

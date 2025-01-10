@@ -1,18 +1,16 @@
-import BlogsTable from '@/components/blogs/blogs-table';
+import BlogsTable from '@/app/(dashboard)/_components/blogs-table';
 import Loading from '@/components/layout/loading';
 import SearchInput from '@/components/ui/search-input';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'All Blogs - User Dashboard',
+  title: 'All Blogs',
 };
 
-const Blogs = async (
-  props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  }
-) => {
+const Blogs = async (props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
   const searchParams = await props.searchParams;
   // Get title from search params and pass to blog table for querying
   const title = searchParams.title?.toString() || '';

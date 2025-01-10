@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/auth';
-import { ConnectDB } from '@/lib/config/db';
+import { connectDB } from '@/lib/config/db';
 import { backendClient } from '@/lib/edgestore-server';
 import Blogs, { Blog } from '@/lib/models/blogs';
 import { Types } from 'mongoose';
@@ -19,7 +19,7 @@ export const addBlog = async (blogData: Blog) => {
 
   try {
     //Connect to MongoDB
-    await ConnectDB();
+    await connectDB();
 
     await backendClient.blogPostImages.confirmUpload({
       url: blogData.image.url,
@@ -51,7 +51,7 @@ export const addBlog = async (blogData: Blog) => {
 export const deleteBlog = async (id: string, url: string) => {
   try {
     //Connect to DB
-    await ConnectDB();
+    await connectDB();
 
     await backendClient.blogPostImages.deleteFile({ url });
     await Blogs.deleteOne({ _id: id });
@@ -75,7 +75,7 @@ export const deleteBlog = async (id: string, url: string) => {
 export const editBlog = async (updatedData: Blog, id: string) => {
   try {
     //Connect to DB
-    await ConnectDB();
+    await connectDB();
 
     const blog = await Blogs.findById(id); //Get the blog TBU from to the DB
 

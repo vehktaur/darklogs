@@ -1,17 +1,24 @@
 'use server';
 
-import { ConnectDB } from '@/lib/config/db';
+import { connectDB } from '@/lib/config/db';
 import { Password } from '@/lib/definitions';
 import { backendClient } from '@/lib/edgestore-server';
 import Users, { User } from '@/lib/models/users';
-import { getUser } from '@/lib/server-utils';
+import { getUser } from '@/lib/utils/get-user';
 import bcrypt from 'bcryptjs';
 import { revalidateTag } from 'next/cache';
+
+// Dynamically import auth to avoid circular dependency issues
+// resulting from createUser being imported into auth files
+const getAuth = async () => {
+  const { auth } = await import('@/auth');
+  return auth();
+};
 
 export const createUser = async (user: User) => {
   try {
     //Connect to the DB
-    await ConnectDB();
+    await connectDB();
 
     //Check whether user already exists
     const userExists = await getUser({ email: user.email });
@@ -40,21 +47,24 @@ export const createUser = async (user: User) => {
   }
 };
 
-export const updateUser = async (updatedData: Partial<User>, id: string) => {
+export const updateUser = async (updatedData: Partial<User>) => {
   try {
     //Connect to DB
-    await ConnectDB();
+    await connectDB();
+
+    // Get user details
+    const session = await getAuth();
+    if (!session) {
+      throw new Error('User must be logged in');
+    }
 
     //Get the user TBU from to the DB
-    const user = await Users.findById(id);
+    const user = await Users.findById(session.user._id);
 
     //Confirm user exists
     if (!user) {
       throw new Error('User does not exist');
     }
-
-    //Check if username is being changed in order to redirect to the home page
-    const newUsername = user.username !== updatedData.username;
 
     //Update the blog with the values from the updatedData
     Object.assign(user, updatedData);
@@ -62,11 +72,10 @@ export const updateUser = async (updatedData: Partial<User>, id: string) => {
 
     revalidateTag('user');
 
-    //return success msg and redirect boolean
+    //return success msg
     return {
       success: true,
       msg: 'User Updated',
-      redirect: newUsername,
     };
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
@@ -77,13 +86,19 @@ export const updateUser = async (updatedData: Partial<User>, id: string) => {
   }
 };
 
-export const changePassword = async (data: Password, username: string) => {
+export const changePassword = async (data: Password) => {
   try {
     // Connect to the DB
-    await ConnectDB();
+    await connectDB();
+
+    // Get user details
+    const session = await getAuth();
+    if (!session) {
+      throw new Error('User must be logged in');
+    }
 
     //Confirm user exists
-    const user = await Users.findOne({ username });
+    const user = await Users.findById(session.user._id);
     if (!user) {
       throw new Error('User does not exist');
     }
@@ -125,13 +140,19 @@ export const changePassword = async (data: Password, username: string) => {
   }
 };
 
-export const changeProfilePic = async (url: string, id?: string) => {
+export const changeProfilePic = async (url: string) => {
   try {
     // connect to the DB
-    await ConnectDB();
+    await connectDB();
+
+    // Get user details
+    const session = await getAuth();
+    if (!session) {
+      throw new Error('User must be logged in');
+    }
 
     // Confirm user exists
-    const user = await Users.findById(id);
+    const user = await Users.findById(session.user._id);
     if (!user) {
       throw new Error('User does not exist');
     }
@@ -164,7 +185,7 @@ export const changeProfilePic = async (url: string, id?: string) => {
 export const deleteProfilePic = async (id: string, url?: string | null) => {
   try {
     // connect to the DB
-    await ConnectDB();
+    await connectDB();
 
     // Confirm user exists
     const user = await Users.findById(id);

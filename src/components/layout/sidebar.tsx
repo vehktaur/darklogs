@@ -6,13 +6,18 @@ import NavLink from '../ui/nav-link';
 import BlurImage from '../ui/blur-image';
 import { User } from '@/lib/models/users';
 import { Logo, LogoIcon } from '@/assets/svgs';
+import { auth } from '@/auth';
+import { getUser } from '@/lib/utils/get-user';
 
-const Sidebar = async ({ user }: { user?: User | null }) => {
+const Sidebar = async () => {
+  const session = await auth();
+  const user = await getUser({ id: session?.user?._id });
+
   const navLinks = [
     {
       name: 'Profile',
       icon: <PiUser className='size-7' />,
-      path: `/${user?.username}`,
+      path: `/profile`,
     },
     {
       name: 'Create Post',

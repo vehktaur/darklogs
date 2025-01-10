@@ -8,10 +8,10 @@ import { PiEyesFill } from 'react-icons/pi';
 import { MdOutlineEditNote } from 'react-icons/md';
 import Link from 'next/link';
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { cn, findAncestor } from '@/lib/utils';
-import Modal from '../ui/modal';
-import Button from '../ui/button';
+import Modal from '../../../components/ui/modal';
+import Button from '../../../components/ui/button';
 
 const BlogOptions = ({
   id,
@@ -27,7 +27,8 @@ const BlogOptions = ({
   const [spaceDown, setSpaceDown] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const dropdownRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement>(null);
+  const dropdownRef: RefObject<HTMLDivElement | null> =
+    useRef<HTMLDivElement>(null);
 
   //Handle Toggle Effects
   const handleClick = (): void => {

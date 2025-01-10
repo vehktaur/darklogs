@@ -2,11 +2,11 @@
 
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { emailPattern, SignUpSchema } from '@/lib/definitions';
-import Input from '../ui/input';
+import Input from '../../../components/ui/input';
 import { createUser } from '@/app/actions/user-actions';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { User } from '@/lib/models/users';
-import Button from '../ui/button';
+import Button from '../../../components/ui/button';
 import { useRouter } from 'next/navigation';
 
 const SignUpForm = () => {

@@ -1,42 +1,20 @@
 import NavLink from '@/components/ui/nav-link';
-import ProfileImg from '@/components/profile/profile-img';
-import UseFormContextProvider from '@/context/UseFormContextProvider';
 import { PiUser } from 'react-icons/pi';
 import { GoShieldLock } from 'react-icons/go';
-import { getUser } from '@/lib/server-utils';
-import { redirect } from 'next/navigation';
+import ProfileImgWrapper from '../_components/profile-img-wrapper';
 
-const ProfileLayout = async (
-  props: {
-    children: React.ReactNode;
-    params: Promise<{ username: string }>;
-  }
-) => {
-  const params = await props.params;
-
-  const {
-    children
-  } = props;
-
-  const { username } = params;
-
-  const user = await getUser({ username });
-
-  if (!user) {
-    redirect('/');
-  }
-
+const ProfileLayout = async ({ children }: { children: React.ReactNode }) => {
   //NavLinks for different profile sections
   const navLinks = [
     {
       name: 'Personal Info',
       icon: <PiUser className='mt-[0.1rem] w-[1.1rem]' />,
-      path: `/${user.username}`,
+      path: `/profile`,
     },
     {
       name: 'Security',
       icon: <GoShieldLock className='w-4' />,
-      path: `/${user.username}/password`,
+      path: `/profile/password`,
     },
   ];
 
@@ -44,9 +22,7 @@ const ProfileLayout = async (
     <div className='px-5 pb-10 ~pt-5/8'>
       <div className='mx-auto max-w-6xl'>
         {/* Profile picture section */}
-        <UseFormContextProvider>
-          <ProfileImg user={user} />
-        </UseFormContextProvider>
+        <ProfileImgWrapper />
 
         {/* Link and header for different profile sections */}
         <h1 className='mb-10 flex w-full max-w-xl border-b-2 pb-1 ~text-base/lg ~gap-4/12'>

@@ -1,11 +1,11 @@
-import SignUpForm from '@/components/auth/sign-up-form';
-import ButtonAuth from '@/components/auth/button-auth';
+import SignUpForm from '@/app/auth/_components/sign-up-form';
+import ButtonAuth from '@/app/auth/_components/button-auth';
 import UseFormContextProvider from '@/context/UseFormContextProvider';
 import Link from 'next/link';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sign Up | Logs',
+  title: 'Get Started',
   description: 'Get started with Logs',
 };
 

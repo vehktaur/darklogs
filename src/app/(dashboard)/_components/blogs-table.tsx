@@ -1,7 +1,7 @@
 import { assets } from '@/assets/assets';
 import BlogOptions from './blog-options';
 import Image from 'next/image';
-import { getAllBlogs, getUserBlogs } from '@/lib/blog-data';
+import { getAllBlogs, getUserBlogs } from '@/lib/utils/get-blog-data';
 import { auth } from '@/auth';
 import { PopulatedBlog } from '@/lib/models/blogs';
 
@@ -61,7 +61,7 @@ const BlogsTable = async ({ title }: { title: string }) => {
                   </span>
                 </td>
               )}
-              <td className='flex w-96 items-center gap-2 ps-6 px-8'>
+              <td className='flex w-96 items-center gap-2 px-8 ps-6'>
                 <span className='flex-shrink-0 cursor-pointer overflow-hidden rounded-full border border-stone-500 transition-all duration-500 ~size-8/10 hover:z-10 hover:scale-[3]'>
                   <Image
                     className='size-full object-cover object-center'

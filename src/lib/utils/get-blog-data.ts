@@ -1,17 +1,17 @@
 'use cache';
 
 import 'server-only';
-import { ConnectDB } from './config/db';
-import Blogs, { PopulatedBlog } from './models/blogs';
+import { connectDB } from '../config/db';
+import Blogs, { PopulatedBlog } from '../models/blogs';
 import { unstable_cacheTag as cacheTag } from 'next/cache';
-import Users from './models/users';
+import Users from '../models/users';
 
 //Get All Blogs from the Database
 export const getAllBlogs = async () => {
   cacheTag('blogs');
   try {
     // Connect to MongoDB
-    await ConnectDB();
+    await connectDB();
 
     // Fetch blogs based on the provided query
     const blogs = await Blogs.find()
@@ -40,7 +40,7 @@ export const getUserBlogs = async (id: string) => {
   cacheTag('blogs');
   try {
     // Connect to MongoDB
-    await ConnectDB();
+    await connectDB();
 
     // Fetch blogs based on the provided query
     const blogs = await Blogs.find({ author: id })
@@ -68,7 +68,7 @@ export const getBlog = async (id: string) => {
   cacheTag(`blog_${id}`);
   try {
     // Connect to MongoDB
-    await ConnectDB();
+    await connectDB();
 
     // Fetch blog
     const blog = await Blogs.findById(id)
@@ -82,7 +82,7 @@ export const getBlog = async (id: string) => {
           if (doc.author && doc.author._id)
             doc.author._id = doc.author._id.toString();
         }
-        
+
         return doc;
       });
 

@@ -1,10 +1,11 @@
 'use client';
 
-import Input from '../ui/input';
+import Input from '../../../components/ui/input';
 import { emailPattern, LoginSchema } from '@/lib/definitions';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
-import Button from '../ui/button';
+import Button from '../../../components/ui/button';
+import { AuthError } from 'next-auth';
 
 const LoginForm = () => {
   const {
@@ -12,9 +13,21 @@ const LoginForm = () => {
     formState: { isSubmitting },
   } = useFormContext<LoginSchema>();
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    console.log(data);
-    signIn('credentials', { ...data, callbackUrl: '/' });
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+    try {
+      await signIn('credentials', { ...data, callbackUrl: '/' });
+    } catch (error) {
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case 'CredentialsSignin':
+            return { error: 'Invalid credentials' };
+          default:
+            return { error: 'Something went wrong' };
+        }
+      }
+
+      throw error;
+    }
   };
 
   return (

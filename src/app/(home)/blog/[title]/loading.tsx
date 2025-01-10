@@ -1,6 +1,3 @@
-import LoadingComponent from '@/components/layout/loading';
+import BlogPageSkeleton from '@/components/ui/skeletons/blog-page-skeleton';
 
-const Loading = () => {
-  return <LoadingComponent className='min-full-screen' />;
-};
-export default Loading;
+export default BlogPageSkeleton;

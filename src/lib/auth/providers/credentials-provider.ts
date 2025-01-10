@@ -1,7 +1,6 @@
 import Credentials from 'next-auth/providers/credentials';
 
-import { User } from '@/lib/models/users';
-import { getUser } from '@/lib/server-utils';
+import { getUser } from '@/lib/utils/get-user';
 import bcrypt from 'bcryptjs';
 
 const credentialsProvider = Credentials({
@@ -15,7 +14,7 @@ const credentialsProvider = Credentials({
       const { email, password } = credentials;
 
       // Get user details from the DB
-      const user = (await getUser({ email: String(email) })) as User;
+      const user = await getUser({ email: String(email) });
 
       // Check if user actually exists
       if (!user) {
@@ -39,7 +38,7 @@ const credentialsProvider = Credentials({
       //return user details
       return user;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return null;
     }
   },

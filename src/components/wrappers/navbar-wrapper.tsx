@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { getUser } from '@/lib/server-utils';
+import { getUser } from '@/lib/utils/get-user';
 import Navbar from '../layout/navbar';
 
 const NavbarWrapper = async () => {

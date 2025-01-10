@@ -6,11 +6,11 @@ import { Suspense } from 'react';
 import NavbarSkeleton from '@/components/ui/skeletons/navbar-skeleton';
 
 export const metadata: Metadata = {
-  title: 'Logs',
+  title: 'Home',
   description: 'Blog App from GreatStack',
 };
 
-const AppLayout = async ({
+const AppLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;

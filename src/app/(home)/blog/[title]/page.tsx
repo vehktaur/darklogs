@@ -1,9 +1,13 @@
 import BlurImage from '@/components/ui/blur-image';
 import { assets } from '@/assets/assets';
-import { getAllBlogs, getBlog } from '@/lib/blog-data';
+import { getAllBlogs, getBlog } from '@/lib/utils/get-blog-data';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { FaWhatsapp, FaXTwitter } from 'react-icons/fa6';
+
+type Props = {
+  params: Promise<{ title: string }>;
+};
 
 // Generate Static Blog Pages at build time
 export const generateStaticParams = async () => {
@@ -15,45 +19,37 @@ export const generateStaticParams = async () => {
   return staticBlogs ? staticBlogs : [{ title: 'Blog | Logs' }];
 };
 
-export const generateMetadata = async (
-  props: {
-    params: Promise<{ title: string }>;
-  }
-) => {
+export const generateMetadata = async (props: Props) => {
   const params = await props.params;
   const url = decodeURIComponent(params.title);
   const id = url.split('__').pop();
 
   if (id) {
-
     const blog = await getBlog(id);
     return {
-      title: `${blog?.title} | Logs`,
+      title: `${blog?.title}`,
       description: blog?.description,
     };
   } else {
     return {
-      title: 'Blog | Logs',
+      title: 'Blog',
     };
   }
 };
 
-const Blog = async (props: { params: Promise<{ title: string }> }) => {
+const Blog = async (props: Props) => {
   const params = await props.params;
   const url = params.title;
   const id = url.split('__').pop();
 
   if (!id) {
-    console.log('id', id);
-    redirect('/');
+    notFound();
   }
 
   const blog = await getBlog(id);
 
   if (!blog) {
-    console.log('id', id);
-    console.log('blog', blog);
-    redirect('/');
+    notFound();
   }
 
   return (

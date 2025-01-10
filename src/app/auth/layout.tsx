@@ -1,18 +1,8 @@
-import { Metadata } from 'next';
-
 import Illustration from '../../components/layout/illustration';
 import Link from 'next/link';
 import { Logo } from '@/assets/svgs';
 
-export const metadata: Metadata = {
-  title: 'Get Started | Logs',
-};
-
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='mx-auto grid w-full max-w-[90rem] grid-cols-1 md:grid-cols-2'>
       {/* Main content - Left Column  */}
@@ -32,4 +22,6 @@ export default function AuthLayout({
       </aside>
     </div>
   );
-}
+};
+
+export default AuthLayout;

@@ -1,18 +1,19 @@
 import { Metadata } from 'next';
 import { Barlow } from 'next/font/google';
 
-//Components Import
-import { Slide, ToastContainer } from 'react-toastify';
+import { SessionProvider } from 'next-auth/react';
+import { Toaster } from '@/components/ui/sonner';
 
 //Styles Import
 import './globals.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'react-toastify/dist/ReactToastify.css';
-import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
-  title: 'Logs',
+  title: {
+    default: 'Logs',
+    template: '%s | Logs',
+  },
 };
 
 const barlow = Barlow({
@@ -34,19 +35,7 @@ export default function RootLayout({
           {children}
 
           {/* Toast Container */}
-          <ToastContainer
-            position='top-right'
-            autoClose={3000}
-            hideProgressBar
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable={false}
-            pauseOnHover={false}
-            theme='light'
-            transition={Slide}
-          />
+          <Toaster position='top-right' />
         </body>
       </SessionProvider>
     </html>

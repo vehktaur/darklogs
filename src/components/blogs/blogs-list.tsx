@@ -1,6 +1,6 @@
 import { capitalizeString } from '@/lib/utils';
 import BlogCard from './blog-card';
-import { getAllBlogs } from '@/lib/blog-data';
+import { getAllBlogs } from '@/lib/utils/get-blog-data';
 
 const BlogList = async ({ category }: { category: string }) => {
   const blogs = await getAllBlogs();

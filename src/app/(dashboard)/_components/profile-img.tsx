@@ -6,9 +6,9 @@ import { useEdgeStore } from '@/lib/edgestore';
 import { User } from '@/lib/models/users';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
-import { toast } from 'react-toastify';
-import Modal from '../ui/modal';
-import Button from '../ui/button';
+import { toast } from 'sonner';
+import Modal from '../../../components/ui/modal';
+import Button from '../../../components/ui/button';
 
 const ProfileImg = ({ user }: { user: User | null }) => {
   const { edgestore } = useEdgeStore();
@@ -154,7 +154,7 @@ const ProfileImg = ({ user }: { user: User | null }) => {
               <button
                 disabled={!user?.image && !image.url}
                 type='button'
-                className='rounded-full border border-red-600 py-1 text-red-600 ~px-2/4 disabled:text-red-300 disabled:border-red-200'
+                className='rounded-full border border-red-600 py-1 text-red-600 ~px-2/4 disabled:border-red-200 disabled:text-red-300'
                 onClick={() => setShowConfirmation(true)}
               >
                 Remove

@@ -1,13 +1,13 @@
 'use client';
 
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import Input from '../ui/input';
+import Input from '../../../components/ui/input';
 import { Password as PasswordProps } from '@/lib/definitions';
-import Button from '../ui/button';
+import Button from '../../../components/ui/button';
 import { changePassword } from '@/app/actions/user-actions';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
-const Password = ({ username }: { username: string }) => {
+const Password = () => {
   const {
     handleSubmit,
     reset,
@@ -17,7 +17,7 @@ const Password = ({ username }: { username: string }) => {
 
   const onSubmit: SubmitHandler<PasswordProps> = async (data) => {
     console.log(data);
-    const res = await changePassword(data, username);
+    const res = await changePassword(data);
     if (res.success) {
       toast.success(res.msg);
       reset();

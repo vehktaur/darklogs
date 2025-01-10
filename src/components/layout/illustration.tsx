@@ -2,12 +2,13 @@
 
 import { illustrations } from '@/assets/assets';
 import { getRandomImages } from '@/lib/utils';
-import Image from 'next/image';
-import { Autoplay, Pagination, Parallax } from 'swiper/modules';
+import Image, { StaticImageData } from 'next/image';
+import { useEffect, useState } from 'react';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const Illustration = () => {
-  const randomImages = getRandomImages(illustrations, 10);
+  // const randomImages = getRandomImages(illustrations, 10);
 
   return (
     <div
@@ -34,13 +35,13 @@ const Illustration = () => {
         speed={777}
         loop={true}
         slidesPerView={1}
-        modules={[Autoplay, Pagination, Parallax]}
+        modules={[ Pagination]}
         pagination={{ clickable: true }}
         parallax={true}
         autoplay={{ delay: 5000 }}
         className='h-full'
       >
-        {randomImages.map((ill, index) => (
+        {illustrations.slice(0, 10).map((ill, index) => (
           <SwiperSlide key={index}>
             <Image
               className='size-full object-cover object-top'

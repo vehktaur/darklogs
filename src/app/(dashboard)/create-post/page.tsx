@@ -1,4 +1,4 @@
-import BlogForm from '@/components/blogs/blog-form';
+import BlogForm from '@/app/(dashboard)/_components/blog-form';
 import UseFormContextProvider from '@/context/UseFormContextProvider';
 
 const AddBlog = () => {

@@ -1,6 +1,6 @@
-import BlogForm from '@/components/blogs/blog-form';
+import BlogForm from '@/app/(dashboard)/_components/blog-form';
 import UseFormContextProvider from '@/context/UseFormContextProvider';
-import { getBlog } from '@/lib/blog-data';
+import { getBlog } from '@/lib/utils/get-blog-data';
 import { unstable_cache } from 'next/cache';
 import { redirect } from 'next/navigation';
 

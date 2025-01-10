@@ -1,28 +1,27 @@
 'use client';
 
 import { SubmitHandler, useFormContext } from 'react-hook-form';
-import Input from '../ui/input';
+import Input from '../../../components/ui/input';
 import { PersonalInfo as PersonalInfoProps } from '@/lib/definitions';
-import Button from '../ui/button';
-import { User } from '@/lib/models/users';
+import Button from '../../../components/ui/button';
 import { updateUser } from '@/app/actions/user-actions';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
 
-const PersonalInfo = ({ user }: { user: User }) => {
+const PersonalInfo = () => {
+  const { data: session } = useSession();
+
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isDirty },
   } = useFormContext<PersonalInfoProps>();
 
   const onSubmit: SubmitHandler<PersonalInfoProps> = async (data) => {
     console.log(data);
-    const res = await updateUser(data, user?._id);
+    const res = await updateUser(data);
 
     if (res.success) {
       toast.success(res.msg);
-      if (res.redirect) {
-        window.location.reload();
-      }
     } else {
       toast.error(res.msg);
     }
@@ -54,15 +53,11 @@ const PersonalInfo = ({ user }: { user: User }) => {
             type='email'
             required={true}
             disabled
-            placeholder={user.email}
+            placeholder={session?.user.email}
           />
         </div>
 
-        <Button
-          disabled={isSubmitting}
-          type='submit'
-          isSubmitting={isSubmitting}
-        >
+        <Button disabled={!isDirty} type='submit' isSubmitting={isSubmitting}>
           {isSubmitting ? 'SAVING...' : 'SAVE'}
         </Button>
       </div>
